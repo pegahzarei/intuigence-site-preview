@@ -29,9 +29,9 @@
   /* Suisse Intl / ABC Diatype Mono are the licensed targets (crusoe.ai stack);
      they activate automatically if installed or later self-hosted.
      Inter / Fragment Mono ship (cofactr and cantor8 run these exact free fonts). */
-  --sans: "ABC Diatype", "Suisse Intl", "Geist", "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --disp: "ABC Diatype", "Suisse Intl", "Geist", "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --mono: "ABC Diatype", "Suisse Intl", "Geist", "Inter", "Helvetica Neue", Arial, sans-serif;
+  --sans: "Geist", "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --disp: "Space Grotesk", "Geist", "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --mono: "Geist", "Inter", "Helvetica Neue", Arial, sans-serif;
   --serif: "Source Serif 4", Georgia, "Times New Roman", serif;
   --wrap: 1720px;
   --gut: clamp(20px, 3.2vw, 56px);
@@ -238,7 +238,6 @@ section.shade { background: var(--paper-2); }
 .hero .wrap { position: relative; z-index: 2; width: 100%; padding-top: 170px; padding-bottom: clamp(22px, 3.5vh, 38px); }
 .hero .toplabel { margin-bottom: clamp(22px, 4vh, 40px); color: var(--dk-ink-2); }
 .hero .toplabel a:hover { color: var(--dk-ink); }
-.hero h1 { font-size: clamp(30px, 3.4vw, 50px); max-width: 15ch; margin-bottom: 16px; letter-spacing: -0.02em; }
 .hero .sub { font-size: clamp(13px, 1vw, 14px); line-height: 1.55; color: var(--dk-ink-2); margin-bottom: 22px; }
 .hero .cta-row { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; margin-bottom: clamp(28px, 5vh, 48px); }
 .hero .standing {
@@ -654,8 +653,14 @@ body.fx .in tbody tr { opacity: 1; transform: none; }
 .avatarpanel img { position: relative; }
 
 /* cycling step list */
-[data-steps] .step { cursor: default; transition: opacity .35s; }
-[data-steps] .step:not(.on) { opacity: .38; }
+[data-steps] .step { cursor: default; }
+[data-steps] .step h3, [data-steps] .step p, [data-steps] .step .mono { transition: color .45s; }
+[data-steps] .step:not(.on) h3 { color: rgba(242, 241, 238, 0.38); }
+[data-steps] .step:not(.on) p { color: rgba(242, 241, 238, 0.28); }
+[data-steps] .step:not(.on) .mono { color: rgba(242, 241, 238, 0.32); }
+[data-steps] .step.on h3 { color: var(--dk-ink); }
+[data-steps] .step.on p { color: var(--dk-ink-2); }
+[data-steps] .step.on .mono { color: var(--dk-ink); }
 
 
 /* ---------------------------------------------------------- v5 */
@@ -735,11 +740,10 @@ body.fx .in tbody tr { opacity: 1; transform: none; }
 
 
 /* ---------------------------------------------------------- v7 */
-.hero-bottom { display: grid; grid-template-columns: minmax(0, 6fr) minmax(340px, 5fr); gap: clamp(28px, 4vw, 72px); align-items: start; }
-.hero-bottom h1 { margin-bottom: 0; }
+.hero-bottom { display: flex; align-items: center; gap: 28px; }
 .hero-side .sub { margin-bottom: 18px; }
 .hero-side .cta-row { margin-bottom: 0; }
-@media (max-width: 900px) { .hero-bottom { grid-template-columns: 1fr; gap: 20px; } }
+@media (max-width: 800px) { .hero-bottom { flex-direction: column; gap: 16px; } }
 
 .plogo .mslogo4, .qslide .mslogo4 { width: 14px; height: 14px; flex: 0 0 auto; }
 .plogo .ielogo { height: 22px; width: auto; }
@@ -756,10 +760,6 @@ body.fx .in tbody tr { opacity: 1; transform: none; }
 
 /* ---------------------------------------------------------- v8 */
 /* hero: sub and CTA share one row */
-.hero-side { display: flex; align-items: flex-start; gap: 22px; }
-.hero-side .sub { margin-bottom: 0; flex: 1; }
-.hero-side .cta-row { flex: none; margin-top: 2px; }
-@media (max-width: 800px) { .hero-side { flex-direction: column; align-items: flex-start; gap: 16px; } }
 
 /* problem band closing line */
 .probclose { font-family: var(--serif); font-style: italic; font-size: clamp(18px, 1.8vw, 24px); line-height: 1.45; color: var(--dk-ink-2); max-width: 52ch; margin-top: clamp(28px, 4vw, 44px); }
@@ -819,3 +819,141 @@ body.fx .in tbody tr { opacity: 1; transform: none; }
 @media (max-width: 760px) { .cera-pair { grid-template-columns: 1fr; } }
 .qco .colg.celanese { height: 16px; width: auto; }
 .qco .colg.aramco { height: 30px; width: auto; }
+
+
+/* ---------------------------------------------------------- v12 */
+/* rotating centered hero headlines */
+.hero-center {
+  position: absolute; inset: 0; z-index: 2; pointer-events: none;
+}
+.hslide {
+  position: absolute; left: 50%; top: 37%; transform: translateX(-50%);
+  width: min(96vw, 1360px); padding: 0 20px; text-align: center;
+  opacity: 0; transition: opacity .9s ease;
+}
+.hslide.on { opacity: 1; }
+.hslide h1, .hslide .ht {
+  font-family: var(--disp); font-size: clamp(36px, 4.3vw, 68px);
+  font-weight: 400; letter-spacing: -0.025em; line-height: 1.08;
+}
+.hslide .hsub { margin: 16px auto 0; font-size: clamp(14px, 1.2vw, 17px); color: var(--dk-ink-2); }
+
+/* palantir-scale product list */
+.biglist { border-top: 1px solid var(--hair); }
+.bigrow { display: grid; grid-template-columns: 1fr auto; padding: clamp(20px, 2.8vw, 38px) 0; border-bottom: 1px solid var(--hair); align-items: start; }
+.bigrow .bigname {
+  grid-column: 1; font-family: var(--disp);
+  font-size: clamp(52px, 7.4vw, 116px); font-weight: 400;
+  letter-spacing: -0.035em; line-height: 1; transition: color .25s;
+}
+.bigrow .bidx { grid-column: 2; grid-row: 1; font-family: var(--mono); font-size: 11px; letter-spacing: 0.05em; color: var(--ink-3); padding-top: 10px; }
+.bigrow p { grid-column: 1 / -1; margin-top: 12px; color: var(--ink-2); font-size: 15px; max-width: 62ch; transition: color .25s; }
+@media (hover: hover) {
+  .biglist:hover .bigrow:not(:hover) .bigname { color: var(--ink-3); }
+  .biglist:hover .bigrow:not(:hover) p { color: var(--ink-3); }
+}
+
+
+/* ---------------------------------------------------------- v14 */
+/* rotating headlines are real, selectable text (hero-center passes clicks
+   through; re-enable them on the visible slide only) */
+.hslide.on { pointer-events: auto; }
+/* the home hero's .wrap (padding-top 170px) overlaps the headline on short
+   viewports and steals its clicks; pass them through except on real content */
+.hero:has(.hero-center) .wrap { pointer-events: none; }
+.hero:has(.hero-center) .hero-bottom { pointer-events: auto; }
+
+
+/* ---------------------------------------------------------- v15 */
+/* descender room in the headline-rise mask (fxm's overflow:hidden was
+   clipping the bottom of g/y/p everywhere) */
+.fxm { padding-bottom: 0.18em; margin-bottom: -0.18em; }
+.fxi { transform: translateY(130%); }
+
+/* slower hero crossfade */
+.hslide { transition: opacity 1.8s ease; }
+
+/* palantir-scale section titles */
+h2 { font-size: clamp(28px, 3.6vw, 48px); }
+
+/* footer contact pills */
+.foot-base .foot-pills { display: flex; gap: 12px; flex-wrap: wrap; }
+.foot-pills a {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 38px; padding: 0 24px;
+  border: 1px solid var(--dk-hair); border-radius: 60px;
+  font-family: var(--sans); font-size: 13px; font-weight: 400;
+  letter-spacing: 0.02em; text-transform: uppercase;
+  color: var(--dk-ink);
+  transition: background .18s, color .18s, border-color .18s;
+}
+.foot-pills a:hover { background: var(--dk-ink); color: var(--dk); border-color: var(--dk-ink); }
+
+/* workforce lead: brand word + moved hero line */
+.sechead .brand { color: var(--org); }
+.sechead .lead + .lead { margin-top: 10px; }
+
+
+/* ---------------------------------------------------------- v16 */
+/* roster note under the workforce carousel: label + text row */
+.featnote {
+  display: grid; grid-template-columns: minmax(140px, 220px) 1fr;
+  gap: clamp(16px, 3vw, 48px); align-items: baseline;
+  border-top: 1px solid var(--hair);
+  margin-top: clamp(16px, 2vw, 26px); padding-top: 14px;
+}
+.featnote .mono { color: var(--ink-3); }
+.featnote p + p { color: var(--ink-2); font-size: 15px; max-width: 78ch; }
+@media (max-width: 760px) { .featnote { grid-template-columns: 1fr; gap: 8px; } }
+
+/* quieter hero CTA, sits lower */
+.hero-bottom .btn.lighto {
+  color: var(--dk-ink-2); border-color: rgba(242, 241, 238, 0.22);
+  font-size: 13px; font-weight: 400; padding: 12px 20px;
+}
+.hero-bottom .btn.lighto:hover { color: var(--dk-ink); border-color: var(--dk-ink); background: transparent; }
+.hero-bottom .cta-row { margin-bottom: 10px; }
+
+/* footer base: center the copyright line against the pill buttons */
+.foot-base { align-items: center; }
+
+/* product pageheads: giant wordmark + display tagline */
+.pagehead .prodmark {
+  font-size: clamp(58px, 8.6vw, 132px); line-height: 1;
+  letter-spacing: -0.035em; max-width: none; margin-bottom: 22px;
+}
+.pagehead .prodtag {
+  font-family: var(--disp); font-size: clamp(22px, 2.5vw, 32px);
+  letter-spacing: -0.02em; line-height: 1.15; color: var(--ink);
+  max-width: 26ch; margin-bottom: 18px;
+}
+
+/* keep kicker-to-roster in one screen after the anchor jump */
+#workforce { scroll-margin-top: 64px; }
+.workforce { padding-top: 28px; }
+.workforce .featnote { margin-top: 14px; }
+
+
+/* ---------------------------------------------------------- v18 */
+/* roster line: plain full-width sentence, no label */
+.featnote { display: block; }
+.featnote p { color: var(--ink-2); font-size: 16px; max-width: 74ch; }
+
+/* compress the workforce section so kicker-to-roster fits one screen
+   even on short laptop windows (~700px effective height) */
+.workforce { padding-top: 12px; }
+.workforce .kicker { margin-bottom: 14px; }
+.workforce .sechead h2 { margin-bottom: 8px; }
+.workforce .featbar { margin-top: 20px; margin-bottom: 14px; }
+.workforce .slide-copy { padding-top: 26px; padding-bottom: 26px; }
+.workforce .slide-copy p { margin-bottom: 18px; }
+.workforce .featnote { margin-top: 10px; padding-top: 12px; }
+
+
+/* ---------------------------------------------------------- v19 */
+/* roster line in the site's serif callout voice */
+.featnote p {
+  font-family: var(--serif); font-style: italic;
+  font-size: clamp(17px, 1.4vw, 20px); line-height: 1.5;
+  color: var(--ink-2); max-width: 64ch;
+}

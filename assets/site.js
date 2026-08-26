@@ -184,7 +184,7 @@
 
   /* headline rise: mask-wrap plain-text headings */
   if (fx) {
-    [].slice.call(document.querySelectorAll(".sechead h2, .pagehead h1, .hero h1, .ctaband h2")).forEach(function (el) {
+    [].slice.call(document.querySelectorAll(".sechead h2, .pagehead h1, .ctaband h2")).forEach(function (el) {
       if (el.querySelector("img, svg")) return;
       el.innerHTML = '<span class="fxm"><span class="fxi">' + el.innerHTML + "</span></span>";
     });
@@ -335,4 +335,56 @@
       }
     });
   }
+})();
+
+
+/* v12: rotating hero headlines */
+(function () {
+  "use strict";
+  var fx = !/[?&]nofx\b/.test(location.search) &&
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var rot = document.querySelector("[data-hero-rotate]");
+  if (!rot) return;
+  var slides = [].slice.call(rot.querySelectorAll(".hslide"));
+  if (slides.length < 2 || !fx) return;
+  var cur = 0;
+  var next = function () {
+    slides[cur].classList.remove("on");
+    cur = (cur + 1) % slides.length;
+    slides[cur].classList.add("on");
+    schedule();
+  };
+  var schedule = function () {
+    var dur = parseInt(slides[cur].getAttribute("data-dur"), 10) || 5000;
+    setTimeout(next, dur);
+  };
+  schedule();
+})();
+
+/* v19: in-page anchor clicks land exactly, even if layout shifts mid-scroll */
+(function () {
+  "use strict";
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest ? e.target.closest('a[href^="#"]') : null;
+    if (!a) return;
+    var id = a.getAttribute("href").slice(1);
+    var el = id && document.getElementById(id);
+    if (!el) return;
+    e.preventDefault();
+    history.pushState(null, "", "#" + id);
+    var target = function () {
+      var sm = parseFloat(getComputedStyle(el).scrollMarginTop) || 0;
+      return el.getBoundingClientRect().top + window.scrollY - sm;
+    };
+    window.scrollTo({ top: target(), behavior: reduced ? "auto" : "smooth" });
+    var settle = function () {
+      var t = target();
+      var drift = Math.abs(window.scrollY - t);
+      /* correct small landing drift only; never fight the user's own scrolling */
+      if (drift > 1 && drift < 120) window.scrollTo({ top: t, behavior: "auto" });
+    };
+    if ("onscrollend" in window) window.addEventListener("scrollend", settle, { once: true });
+    setTimeout(settle, 1100);
+  });
 })();
