@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>What Is an Industrial Knowledge Graph? | IntuigenceAI</title>
-<meta name="description" content="A knowledge graph is the plant's equipment, lines, instruments, and documents as connected, queryable structure, with every claim traced to source.">
-<meta property="og:title" content="What Is an Industrial Knowledge Graph? | IntuigenceAI">
-<meta property="og:description" content="A knowledge graph is the plant's equipment, lines, instruments, and documents as connected, queryable structure, with every claim traced to source.">
+<title>Maven GO | IntuigenceAI</title>
+<meta name="description" content="Maven GO brings the same expert to the field. Crews ask from the unit; the graph answers.">
+<meta property="og:title" content="Maven GO | IntuigenceAI">
+<meta property="og:description" content="Maven GO brings the same expert to the field. Crews ask from the unit; the graph answers.">
 <meta property="og:type" content="website">
 <link rel="icon" href="assets/media/logo.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -58,80 +58,65 @@
 <main id="main" class="doc">
 <section class="pagehead">
   <div class="wrap">
-    <p class="kicker">Explained</p>
-    <h1>What is a knowledge graph for industrial operations?</h1>
-    <p class="sub">Not a search index, and not a vector store. A model of the plant in which the things and their relationships are the data, and every claim can be traced back to a sheet.</p>
+    <p class="kicker">Our Software</p>
+    <h1 class="prodmark">Maven GO</h1>
+    <p class="prodtag">The control room's best answer, standing at the unit.</p>
+    <p class="sub">Maven GO puts the same expert on a phone or tablet in the field. Crews ask from the unit and get answers against the same compiled graph the control room uses, with the same citations: the sheet, the tag, the document revision.</p>
   </div>
 </section>
 
 <section class="tight">
   <div class="wrap">
     <div class="prose">
-      <h2>The definition</h2>
-      <div class="defbox"><strong>Industrial knowledge graph</strong> (n.): a model of a plant in which the nodes are the plant's things (equipment, lines, instruments, documents, procedures) and the edges are their real relationships (connects-to, protects, isolates, documents). Built from the plant's own drawings and data, with every node carrying citations back to source.</div>
-      <p>The two halves matter equally. The nodes make the graph an inventory: every pump, valve, transmitter, and procedure exists as a distinct thing, not a mention in a file. The edges make it a model: the graph knows that this relief valve protects that vessel, that this line connects that exchanger to that column, that this procedure references that pump. Take the edges away and you have a parts list. The edges are what let the graph answer engineering questions.</p>
+      <h2>The answer should not live a binder run away</h2>
+      <p class="lead">The question comes up at the unit. The answer lives at the desk. Everything between them is lost time and relayed detail.</p>
+      <ul>
+        <li><strong>The binder run.</strong> Walk back, find the sheet, walk out again. The job waits on the round trip.</li>
+        <li><strong>The radio relay.</strong> A drawing question read aloud over radio loses the detail that made it a question. The answer that comes back is only as good as the retelling.</li>
+        <li><strong>The one engineer who knows.</strong> The senior engineer cannot stand at every unit. The crew waits for a callback, or proceeds without one.</li>
+      </ul>
+      <p>Maven GO closes the distance. The question is asked where the work is, and the cited answer arrives there, while the crew is still standing in front of the equipment.</p>
     </div>
   </div>
 </section>
 
 <section class="shade">
   <div class="wrap">
-    <div class="prose">
-      <h2>How it differs from search, and from vector retrieval</h2>
-      <p>Document search finds files that mention a term. Vector retrieval, the machinery behind most &ldquo;chat with your documents&rdquo; products, finds passages of text that resemble the question. Both work on resemblance. A graph works on relationships, and that is a different kind of answer.</p>
-      <div class="tablewrap">
-      <table>
-        <thead><tr><th>The question</th><th>What retrieval returns</th><th>What a graph returns</th></tr></thead>
-        <tbody>
-          <tr><th>What is upstream of this exchanger?</th><td>Passages that mention the exchanger.</td><td>The upstream equipment and lines, traced hop by hop, each hop cited to its sheet.</td></tr>
-          <tr><th>What does this relief valve protect?</th><td>Text that discusses the valve, if any document happens to say it plainly.</td><td>The protected equipment, read from the topology, whether or not any prose ever wrote it down.</td></tr>
-          <tr><th>Which procedures reference this pump?</th><td>Documents lexically similar to the pump's tag.</td><td>The exact set of procedures with an edge to that pump. A list, not a likelihood.</td></tr>
-        </tbody>
-      </table>
-      </div>
-      <p>The pattern in the right-hand column: structural questions have exact answers. Resemblance can only approximate them, and the most important facts about a plant, what connects to what, are usually written nowhere as prose. They exist only as topology. A system that reads text can never retrieve what was never written; it has to be compiled from the drawings.</p>
-      <p class="linkrow"><a class="tlink" href="what-is-pid-digitization.html">Where the topology comes from: P&amp;ID digitization</a></p>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <div class="prose">
-      <h2>A graph built once is an archive</h2>
-      <p>Plants change. Management-of-change files land, drawings get revised, instruments are added, lines are rerouted. A knowledge graph that was built during an implementation project and left alone begins to disagree with the plant on day one, and the disagreement compounds quietly. An engineer who catches the graph being stale once will not trust it twice.</p>
-      <p>So freshness is not a feature of a knowledge graph; it is a requirement of the category. The graph must rebuild as the plant's data changes, on the same order of time as the change itself. Our own bar: a plant compiles in under 48 hours, and a new source system goes from connection to queryable in 18 hours. Whatever the number, ask any vendor the same question: when a drawing is revised, when does the graph know?</p>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <div class="prose">
-      <h2>Citations make it checkable</h2>
-      <p>Every node in the graph carries its provenance: the P&amp;ID sheet the valve was read from, the document a procedure came from, the revision it reflects. When the graph answers a question, the answer arrives with its sources, and an engineer can open the sheet and check.</p>
-      <p>This is not decoration. Engineers do not extend trust to systems; they extend it to claims they have verified, one at a time. A graph with citations earns trust at exactly that pace. A graph without them asks to be believed, which in a plant is the same as asking to be ignored.</p>
-      <p class="linkrow"><a class="tlink" href="cortex.html">Cortex, the compile layer</a></p>
-    </div>
-  </div>
-</section>
-
-<section class="dark">
-  <div class="wrap">
-    <p class="kicker">The claim</p>
+    <p class="kicker">In the field</p>
     <div class="sechead">
-      <h2>If you cannot ask what is upstream, you do not have a model of the plant. You have a library.</h2>
-      <p class="lead">Libraries are useful. But the questions that decide isolations, investigations, and turnarounds are structural, and structural questions need a graph: current, connected, and cited.</p>
+      <h2>Where crews actually use it.</h2>
+      <p class="lead">Field work is verification work: does the plant in front of you match the plant on paper. Maven GO carries the paper.</p>
     </div>
+    <div class="steps">
+      <div class="step"><span class="mono">01</span><h3>The walkdown</h3><p>Sheet in one hand, valve in the other, something does not match. The crew asks from the unit and gets the current revision, the tag record, and the connected lines, cited, on the spot.</p></div>
+      <div class="step"><span class="mono">02</span><h3>Permit prep</h3><p>Which energy sources feed this equipment, which valves isolate it, what does the drawing show upstream. The questions behind a safe permit, answered at the point of work instead of assembled back at the desk.</p></div>
+      <div class="step"><span class="mono">03</span><h3>Lineup checks</h3><p>Valve by valve against the drawing. The crew confirms each position against the graph as they walk the line, and every check traces back to the sheet it came from.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="kicker">One graph, no field fork</p>
+    <div class="prose">
+      <h2>The field and the desk read from the same memory</h2>
+      <ul>
+        <li><strong>Same graph.</strong> One compiled plant serves the control room and the unit. There is no field copy to drift out of date.</li>
+        <li><strong>Same citations.</strong> Every answer in the field carries the sheet, the tag, and the revision, exactly as it does at the desk.</li>
+        <li><strong>Same honesty.</strong> When it cannot verify, it says so, in the field too. A crew at the unit needs a refusal more than anyone.</li>
+      </ul>
+    </div>
+    <div class="defbox" style="margin-top:44px"><strong>On the record.</strong> Field questions and answers are logged like every other interaction on the platform: full audit trail, per-tenant isolation, in your cloud.</div>
+    <p class="linkrow"><a class="tlink" href="maven.html">Maven at the desk</a> <a class="tlink" href="process-isolation.html">Process isolation, executed</a> <a class="tlink" href="cortex.html">The graph underneath</a></p>
   </div>
 </section>
 
 <section class="ctaband">
   <div class="wrap">
-    <h2>See your plant as a graph.</h2>
+    <h2>Put the expert at every unit, on every shift.</h2>
     <div class="row">
       <a class="btn" href="demo.html">Book a demo</a>
-      <a class="btn ghost" href="what-is-pid-digitization.html">Back: P&amp;ID digitization</a>
+      <a class="btn ghost" href="maven.html">Explore Maven</a>
     </div>
   </div>
 </section>

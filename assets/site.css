@@ -35,6 +35,7 @@
   --serif: "Source Serif 4", Georgia, "Times New Roman", serif;
   --wrap: 1720px;
   --gut: clamp(20px, 3.2vw, 56px);
+  --annh: 46px; /* height of the announcement strip; reserved permanently */
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -103,27 +104,40 @@ h3 { font-size: clamp(18px, 2vw, 22px); line-height: 1.25; }
 .tlink:hover { border-color: var(--org); }
 
 /* ---------------------------------------------------------- announcement */
-.annbar { background: #1b1d1f; color: var(--dk-ink); }
+/* full-width brand strip pinned to the very top, OUT of document flow. The
+   page reserves its height permanently (see .nav margin-top), so dismissing
+   it never reflows anything and the hero video stays full-bleed either way. */
+.annbar {
+  position: absolute; top: 0; left: 0; right: 0; z-index: 95;
+  background: var(--org); color: #ffffff;
+}
 .annbar.gone { display: none; }
 .annbar .wrap { display: flex; align-items: center; gap: 16px; }
 .annbar a {
   display: block; min-width: 0;
-  padding: 15px 0; font-size: 14px; letter-spacing: 0.01em;
-  color: var(--dk-ink-2);
+  padding: 13px 0; font-size: 13.5px; font-weight: 500; letter-spacing: 0.01em;
+  color: #ffffff;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
-.annbar a:hover { color: var(--dk-ink); }
-.annbar .ul { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+.annbar a:hover { color: #ffffff; }
+.annbar .ul { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; text-decoration-color: rgba(255, 255, 255, 0.6); }
+.annbar a:hover .ul { text-decoration-color: #ffffff; }
 .ann-x {
-  flex: 0 0 auto; padding: 6px 2px; color: var(--dk-ink-2); line-height: 1;
-  font-size: 15px; transition: color .15s;
+  flex: 0 0 auto; width: 30px; height: 30px;
+  display: inline-flex; align-items: center; justify-content: center;
+  color: rgba(255, 255, 255, 0.85); line-height: 1;
+  font-size: 14px; transition: color .15s, background .15s;
 }
-.ann-x:hover { color: var(--dk-ink); }
+.ann-x:hover { color: #ffffff; background: rgba(255, 255, 255, 0.16); }
 
 /* ---------------------------------------------------------- nav */
 .nav {
   position: sticky; top: 0; z-index: 90;
   background: var(--paper);
   border-bottom: 0;
+  /* permanent reserve for the announcement strip: kept whether the strip is
+     shown or dismissed, so nothing on the page ever shifts */
+  margin-top: var(--annh);
 }
 .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; }
 .wordmark { display: inline-flex; align-items: center; gap: 10px; }
@@ -151,7 +165,9 @@ body.overdark .nav .btn.small:hover { background: transparent; color: var(--dk-i
 body.overdark.scrolled .nav, body.overdark.menu-open .nav {
   background: var(--dk);
 }
-body.overdark .hero { margin-top: -64px; }
+/* pull the hero up behind BOTH the transparent nav and the reserved strip,
+   so the video is full-bleed from y=0 with the strip shown or dismissed */
+body.overdark .hero { margin-top: calc(-64px - var(--annh)); }
 
 /* ---------------------------------------------------------- menu */
 .menu {
@@ -210,6 +226,7 @@ section.shade { background: var(--paper-2); }
   letter-spacing: 0.05em; text-transform: uppercase;
   color: var(--ink-3); margin-bottom: clamp(14px, 2vw, 24px);
 }
+.kicker::before { content: ""; width: 6px; height: 6px; background: var(--org); flex: 0 0 auto; }
 .dark .kicker { color: var(--dk-ink-2); }
 
 .sechead { max-width: 880px; }
@@ -219,7 +236,10 @@ section.shade { background: var(--paper-2); }
 
 /* ---------------------------------------------------------- hero */
 .hero {
-  position: relative; min-height: min(94vh, 940px);
+  position: relative;
+  /* full-bleed landing: exactly the viewport at any window size (svh keeps it
+     honest on mobile, where browser chrome makes 100vh overshoot) */
+  min-height: 100vh; min-height: 100svh;
   display: flex; align-items: flex-end;
   background: var(--dk); color: var(--dk-ink);
   overflow: hidden; border-top: 0;
@@ -267,7 +287,7 @@ section.shade { background: var(--paper-2); }
 .chip > span { position: relative; z-index: 1; }
 .chip::before {
   content: ""; position: absolute; inset: 0;
-  background: rgba(16, 17, 20, 0.10);
+  background: rgba(255, 79, 23, 0.13);
   transform: scaleX(0); transform-origin: left center;
 }
 .chip:hover { color: var(--ink); background: #ecebe7; }
@@ -292,26 +312,21 @@ section.shade { background: var(--paper-2); }
 .slides::-webkit-scrollbar { display: none; }
 .slide {
   flex: 0 0 100%; scroll-snap-align: start;
-  display: grid; grid-template-columns: minmax(280px, 460px) 1fr;
-  min-height: 330px;
+  display: grid; grid-template-columns: 1fr minmax(260px, 380px);
+  min-height: 0;
 }
 .slide-visual {
   position: relative; display: flex; align-items: flex-end; justify-content: center;
-  padding: 28px 36px 0; overflow: hidden;
-  background: radial-gradient(circle at 32% 30%, #23262c 0%, #0e0f11 74%);
-}
-.slide-visual::before {
-  content: ""; position: absolute; inset: 0;
-  background-image: linear-gradient(var(--dk-hair) 1px, transparent 1px), linear-gradient(90deg, var(--dk-hair) 1px, transparent 1px);
-  background-size: 30px 30px; opacity: .3;
+  padding: 26px 36px 0; overflow: hidden;
+  order: 2;
 }
 .slide-visual img { position: relative; }
-.slide-visual img { width: min(230px, 62%); height: auto; }
+.slide-visual img { width: min(290px, 100%); height: auto; }
 .slide-visual .idx {
-  position: absolute; top: 18px; left: 20px; z-index: 1;
-  font-family: var(--mono); font-size: 10px; letter-spacing: 0.05em; color: var(--dk-ink-2);
+  position: absolute; top: 16px; right: 18px; z-index: 1;
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.05em; color: var(--ink-3);
 }
-.slide-copy { padding: clamp(24px, 3vw, 44px); display: flex; flex-direction: column; justify-content: center; border-left: 1px solid var(--hair); }
+.slide-copy { padding: clamp(24px, 3vw, 44px); display: flex; flex-direction: column; justify-content: center; order: 1; }
 .slide-copy .mono { color: var(--ink-3); margin-bottom: 18px; }
 .slide-copy h3 { font-size: clamp(22px, 2.4vw, 30px); letter-spacing: -0.02em; margin-bottom: 16px; max-width: 16ch; }
 .slide-copy p { color: var(--ink-2); font-size: 15.5px; max-width: 52ch; margin-bottom: 26px; }
@@ -568,7 +583,8 @@ form .msg.err { color: #b42318; }
 }
 @media (max-width: 820px) {
   .slide { grid-template-columns: 1fr; }
-  .slide-visual { padding-top: 24px; min-height: 280px; }
+  .slide-visual { order: 0; padding: 24px 20px 0; min-height: 0; }
+  .slide-visual img { width: min(200px, 58%); }
   .slide-copy { border-left: 0; border-top: 1px solid var(--hair); }
   .step { grid-template-columns: 56px 1fr; }
   .step p { grid-column: 2; }
@@ -720,7 +736,7 @@ body.fx .in tbody tr { opacity: 1; transform: none; }
 .hero .sub .brand { color: var(--org-soft); }
 
 /* second announcement */
-.ann-2nd { margin-left: auto; color: var(--dk-ink-2); }
+.ann-2nd { margin-left: auto; }
 @media (max-width: 860px) { .ann-2nd { display: none; } }
 
 /* news rows with media */
@@ -815,8 +831,20 @@ body.fx .in tbody tr { opacity: 1; transform: none; }
 .cera-pair { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(16px, 2vw, 28px); }
 .cera-pair figure { margin: 0; }
 .cera-pair img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; display: block; }
+.cera-pair.tall img { aspect-ratio: 4 / 5; }
 .cera-pair figcaption { margin-top: 10px; font-size: 12.5px; line-height: 1.5; color: var(--ink-3); max-width: 56ch; }
 @media (max-width: 760px) { .cera-pair { grid-template-columns: 1fr; } }
+/* one photo beside prose */
+.cera-solo { display: grid; grid-template-columns: minmax(320px, 1fr) 1fr; gap: clamp(28px, 4vw, 64px); align-items: start; }
+.cera-solo figure { margin: 0; }
+.cera-solo img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; display: block; }
+.cera-solo figcaption { margin-top: 10px; font-size: 12.5px; line-height: 1.5; color: var(--ink-3); max-width: 56ch; }
+/* three photos in a row */
+.cera-trio { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(14px, 1.8vw, 24px); }
+.cera-trio figure { margin: 0; }
+.cera-trio img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; display: block; }
+.cera-trio figcaption { margin-top: 10px; font-size: 12.5px; line-height: 1.5; color: var(--ink-3); }
+@media (max-width: 760px) { .cera-solo, .cera-trio { grid-template-columns: 1fr; } }
 .qco .colg.celanese { height: 16px; width: auto; }
 .qco .colg.aramco { height: 30px; width: auto; }
 
@@ -877,7 +905,7 @@ body.fx .in tbody tr { opacity: 1; transform: none; }
 h2 { font-size: clamp(28px, 3.6vw, 48px); }
 
 /* footer contact pills */
-.foot-base .foot-pills { display: flex; gap: 12px; flex-wrap: wrap; }
+.foot-base .foot-pills, .menu-foot .foot-pills { display: flex; gap: 12px; flex-wrap: wrap; }
 .foot-pills a {
   display: inline-flex; align-items: center; justify-content: center;
   min-height: 38px; padding: 0 24px;
@@ -957,3 +985,12 @@ h2 { font-size: clamp(28px, 3.6vw, 48px); }
   font-size: clamp(17px, 1.4vw, 20px); line-height: 1.5;
   color: var(--ink-2); max-width: 64ch;
 }
+
+/* ---------------------------------------------------------- v20 */
+/* hero CTA: a whisper of brand orange on the workforce button */
+.hero-bottom .btn.lighto { border-color: rgba(255, 128, 85, 0.45); }
+.hero-bottom .btn.lighto:hover { color: var(--dk-ink); border-color: var(--org-soft); background: rgba(255, 79, 23, 0.12); }
+/* tighter workforce slides: copy drives the height, panel hugs the avatar */
+.workforce .slide-copy { padding-top: 22px; padding-bottom: 22px; }
+.workforce .slide-copy h3 { margin-bottom: 12px; }
+.workforce .slide-copy p { margin-bottom: 16px; }
