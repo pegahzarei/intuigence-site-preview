@@ -409,6 +409,9 @@ section:not(.dark) .stats span { color: var(--ink-2); }
 .dark .step .mono { color: var(--dk-ink-2); }
 
 /* ---------------------------------------------------------- tables */
+/* tables scroll inside their own box on narrow screens rather than being
+   clipped by the page (row headers are nowrap, so they can't fully reflow) */
+.tbl-scroll { max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .doc table { width: 100%; border-collapse: collapse; margin-top: clamp(28px, 4vw, 48px); font-size: 14.5px; }
 .doc th, .doc td { text-align: left; padding: 16px 18px; border: 1px solid var(--hair); vertical-align: top; }
 .doc thead th { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-3); font-weight: 500; }
@@ -737,7 +740,24 @@ body.fx .in tbody tr { opacity: 1; transform: none; }
 
 /* second announcement */
 .ann-2nd { margin-left: auto; }
-@media (max-width: 860px) { .ann-2nd { display: none; } }
+@media (max-width: 860px) {
+  /* one message at a time, shown in full: two truncated halves read as broken.
+     JS alternates them via .alt. Specificity must beat `.annbar a`. */
+  .annbar .wrap { gap: 8px; padding-inline: 16px; }
+  /* 12.5px + the tighter gutter is what makes the longer Summit line fit
+     inside 375px without an ellipsis */
+  .annbar a.ann-1st, .annbar a.ann-2nd { flex: 1 1 auto; min-width: 0; margin-left: 0; font-size: 12.5px; }
+  .annbar a.ann-2nd { display: none; }
+  .annbar.alt a.ann-1st { display: none; }
+  .annbar.alt a.ann-2nd { display: block; }
+  .annbar .ann-pre { display: none; }   /* drop the lead-in so the line fits */
+}
+/* Phones: keep only the essential half of each message. Shrinking type far
+   enough to fit the full strings made them unreadable at 320px. */
+@media (max-width: 480px) {
+  .annbar .ann-post { display: none; }
+  .annbar a.ann-1st, .annbar a.ann-2nd { font-size: 13px; }
+}
 
 /* news rows with media */
 .newsrow.media { grid-template-columns: 150px 190px 1fr; align-items: center; }
@@ -899,7 +919,9 @@ body.fx .in tbody tr { opacity: 1; transform: none; }
 .fxi { transform: translateY(130%); }
 
 /* slower hero crossfade */
-.hslide { transition: opacity 1.8s ease; }
+/* headlines must not cross-fade into each other: the old slide fades out
+   fully, then a beat of clear screen, then the next fades in (see site.js) */
+.hslide { transition: opacity .6s ease; }
 
 /* large-scale section titles */
 h2 { font-size: clamp(28px, 3.6vw, 48px); }

@@ -38,6 +38,23 @@
       ann.classList.add("gone");
       try { localStorage.setItem(key, "1"); } catch (e) {}
     });
+
+    /* Narrow screens can't fit both messages side by side without truncating
+       both, so show one at a time and alternate. Wide screens show both. */
+    var narrow = window.matchMedia("(max-width: 860px)");
+    var annTimer = null;
+    var startAlt = function () {
+      if (annTimer) return;
+      annTimer = setInterval(function () { ann.classList.toggle("alt"); }, 7000);
+    };
+    var stopAlt = function () {
+      if (!annTimer) return;
+      clearInterval(annTimer); annTimer = null; ann.classList.remove("alt");
+    };
+    if (narrow.matches) startAlt();
+    if (narrow.addEventListener) {
+      narrow.addEventListener("change", function (e) { e.matches ? startAlt() : stopAlt(); });
+    }
   }
 
   /* ---------------- sticky nav state over dark hero ---------------- */
@@ -348,15 +365,20 @@
   var slides = [].slice.call(rot.querySelectorAll(".hslide"));
   if (slides.length < 2 || !fx) return;
   var cur = 0;
+  /* .6s fade-out + .3s of clear screen. Kept inside each slide's own
+     data-dur, so the 3x15s cycle still lines up with the 45s hero video. */
+  var GAP = 900;
   var next = function () {
     slides[cur].classList.remove("on");
     cur = (cur + 1) % slides.length;
-    slides[cur].classList.add("on");
-    schedule();
+    setTimeout(function () {
+      slides[cur].classList.add("on");
+      schedule();
+    }, GAP);
   };
   var schedule = function () {
     var dur = parseInt(slides[cur].getAttribute("data-dur"), 10) || 5000;
-    setTimeout(next, dur);
+    setTimeout(next, Math.max(dur - GAP, 400));
   };
   schedule();
 })();
