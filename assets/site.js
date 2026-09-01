@@ -71,7 +71,7 @@
   }
 
   /* ---------------- intuigents carousel: continuous auto-advance
-       with a progress fill on the active chip (palantir-style).
+       with a progress fill on the active chip.
        Interaction jumps to the chosen slide and restarts the cycle;
        the cycle pauses while off-screen or when the tab is hidden. */
   var car = document.querySelector("[data-carousel]");

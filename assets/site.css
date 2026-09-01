@@ -26,9 +26,9 @@
   --pastel-4: #e8e6ef; /* electrical */
   --pastel-5: #efe8df; /* maintenance */
   --pastel-6: #e6e9e3; /* epc */
-  /* Suisse Intl / ABC Diatype Mono are the licensed targets (crusoe.ai stack);
-     they activate automatically if installed or later self-hosted.
-     Inter / Fragment Mono ship (cofactr and cantor8 run these exact free fonts). */
+  /* Suisse Intl / ABC Diatype Mono are the licensed targets; they activate
+     automatically if installed or later self-hosted. Inter / Fragment Mono
+     ship as the free fallbacks. */
   --sans: "Geist", "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --disp: "Space Grotesk", "Geist", "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --mono: "Geist", "Inter", "Helvetica Neue", Arial, sans-serif;
@@ -604,7 +604,7 @@ form .msg.err { color: #b42318; }
 }
 
 
-/* ---------------------------------------------------------- glass nav (palantir) */
+/* ---------------------------------------------------------- glass nav */
 .nav {
   background: rgba(255, 255, 255, 0.8);
   -webkit-backdrop-filter: blur(14px) saturate(1.6);
@@ -783,7 +783,7 @@ body.fx .in tbody tr { opacity: 1; transform: none; }
 /* product motifs */
 .pmedia .motif { width: 40%; max-width: 130px; stroke: var(--dk-ink-2); stroke-width: 1.5; fill: none; stroke-linecap: round; stroke-linejoin: round; position: relative; }
 
-/* testimonials: people, palantir-sized */
+/* testimonials: people, display-sized */
 .qwho { display: flex; align-items: center; gap: 14px; margin-top: 28px; flex-wrap: wrap; }
 .qface { width: 54px; height: 54px; border-radius: 50%; object-fit: cover; }
 .qmeta { display: flex; flex-direction: column; gap: 2px; }
@@ -866,7 +866,7 @@ body.fx .in tbody tr { opacity: 1; transform: none; }
 }
 .hslide .hsub { margin: 16px auto 0; font-size: clamp(14px, 1.2vw, 17px); color: var(--dk-ink-2); }
 
-/* palantir-scale product list */
+/* large-scale product list */
 .biglist { border-top: 1px solid var(--hair); }
 .bigrow { display: grid; grid-template-columns: 1fr auto; padding: clamp(20px, 2.8vw, 38px) 0; border-bottom: 1px solid var(--hair); align-items: start; }
 .bigrow .bigname {
@@ -901,7 +901,7 @@ body.fx .in tbody tr { opacity: 1; transform: none; }
 /* slower hero crossfade */
 .hslide { transition: opacity 1.8s ease; }
 
-/* palantir-scale section titles */
+/* large-scale section titles */
 h2 { font-size: clamp(28px, 3.6vw, 48px); }
 
 /* footer contact pills */
