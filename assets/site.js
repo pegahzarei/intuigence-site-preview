@@ -57,6 +57,36 @@
     }
   }
 
+  /* ---------------- hero video: graceful autoplay failure ----------------
+     iOS refuses autoplay in Low Power / Low Data mode and paints its own play
+     button over the poster. The scrim and hero copy sit above the video, so
+     that button can't be tapped. Fall back to the poster still instead. */
+  var heroVid = document.querySelector(".hero-media video");
+  if (heroVid) {
+    var toPoster = function () { heroVid.parentNode.classList.add("noplay"); };
+    var tryPlay = function () {
+      var p = heroVid.play();
+      if (p && typeof p.catch === "function") {
+        p.then(function () { heroVid.parentNode.classList.remove("noplay"); })
+         .catch(toPoster);
+      }
+    };
+    tryPlay();
+    /* Two recovery paths, so a transient refusal doesn't strand the poster:
+       returning to a backgrounded tab, and the visitor's first tap (iOS
+       permits playback once there's a user gesture). */
+    document.addEventListener("visibilitychange", function () {
+      if (document.visibilityState === "visible" && heroVid.paused) tryPlay();
+    });
+    var onFirstTouch = function () {
+      if (heroVid.paused) tryPlay();
+      document.removeEventListener("touchstart", onFirstTouch);
+      document.removeEventListener("click", onFirstTouch);
+    };
+    document.addEventListener("touchstart", onFirstTouch, { passive: true });
+    document.addEventListener("click", onFirstTouch);
+  }
+
   /* ---------------- sticky nav state over dark hero ---------------- */
   if (body.classList.contains("overdark")) {
     var onScroll = function () {

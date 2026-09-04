@@ -247,6 +247,9 @@ section.shade { background: var(--paper-2); }
 }
 .hero-media { position: absolute; inset: 0; }
 .hero-media video, .hero-media img { width: 100%; height: 100%; object-fit: cover; }
+/* autoplay refused (iOS Low Power): swap the untappable player for the still */
+.hero-media.noplay video { display: none; }
+.hero-media.noplay { background: var(--dk) url("media/hero-poster.jpg") center / cover no-repeat; }
 .hero-media::before {
   content: ""; position: absolute; inset: 0; z-index: 1;
   background: rgba(8, 9, 10, 0.3);
