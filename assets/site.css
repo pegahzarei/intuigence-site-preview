@@ -1017,3 +1017,13 @@ h2 { font-size: clamp(28px, 3.6vw, 48px); }
   .workforce .featnote { margin-top: 6px; padding-top: 8px; }
   .workforce .slide-copy { padding-top: 18px; padding-bottom: 18px; }
 }
+
+/* Testimonials were the only block on the page capped at 980px, so their right
+   edge aligned with nothing while every other block runs to the content edge.
+   Span the full width and anchor the attribution to that same right edge; the
+   quote keeps a readable measure rather than stretching across the page. */
+.quotes { max-width: none; }
+@media (min-width: 901px) {
+  .qslide { grid-template-columns: minmax(0, 1fr) minmax(230px, 300px); gap: clamp(40px, 5vw, 90px); }
+  .qslide blockquote p { max-width: 54ch; }
+}
